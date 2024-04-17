@@ -69,7 +69,7 @@
     window.addEventListener('DOMContentLoaded', () => {
         showActiveTheme(getPreferredTheme());
         highlightTextInClass('#bo_list .list-group-item a', '투표');
-        
+
 
         document.querySelectorAll('[data-bs-theme-value]').forEach(toggle => {
             toggle.addEventListener('click', () => {
@@ -79,6 +79,33 @@
                 showActiveTheme(theme);
             })
         })
+    })
+
+    const setEditorTheme = (theme) => {
+        try {
+            if(tinymce) {
+                document.head.innerHTML += "<style id=\"editor_dark_mode\">\n" + ".tox.tox-tinymce {visibility: hidden !important};" + "</style>";
+                tinymce.once('AddEditor', (e) => {
+                    e.editor.once('init', (ee) => {
+                        renderEditorTheme(ee.target, theme)
+                    })
+                })
+            }
+        } catch {
+        }
+    }
+
+    const renderEditorTheme = (editor, theme) => {
+        editor.options.set('skin', theme == 'dark'?'oxide-dark':'oxide');
+        editor.contentDocument.documentElement.setAttribute('data-bs-theme', theme);
+        //editor.render();
+        setTimeout(function() {
+            document.getElementById('editor_dark_mode').remove()
+        })
+    }
+
+    window.addEventListener('load', () => {
+        setEditorTheme(getPreferredTheme());
     })
     
     
