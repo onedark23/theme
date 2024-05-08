@@ -60,7 +60,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$qa_skin_url.'/style.css">', 0);
 			<?php } ?>
 			<div class="ms-auto">
 				<?php ob_start(); ?>
-				<a href="<?php echo $list_href ?>" class="btn btn-basic btn-sm" title="목록">
+				<a href="<?php echo $list_href ?><?php echo (isset($qstr)&&$qstr!='') ? '?'.preg_replace('/&amp;/','',$qstr,1) : '' ?>" class="btn btn-basic btn-sm" title="목록">
 					<i class="bi bi-list"></i>
 					<span class="d-none d-sm-inline-block">목록</span>
 				</a>
